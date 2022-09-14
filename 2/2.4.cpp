@@ -2,10 +2,8 @@
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
-
     int N = 0;
-    std::cout << "Ââåäèòå N: ";
+    std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ N: ";
     std::cin >> N;
 
     if (N >= 1)
@@ -15,7 +13,7 @@ int main()
     }
     else
     {
-        std::cout << "×òî-òî òû ïåðåïóòàë";
+        std::cout << "Ð§Ñ‚Ð¾-Ñ‚Ð¾ Ñ‚Ñ‹ Ð¿ÐµÑ€ÐµÐ¿ÑƒÑ‚Ð°Ð»";
     }
     std::cout << std::endl;
     return 0;

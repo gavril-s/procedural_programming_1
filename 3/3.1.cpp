@@ -9,15 +9,13 @@ double m(double S, double p, double n)
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
-
     double S = 0, p = 0, n = 0;
-    std::cout << "Ââåäèòå S, p è n: ";
+    std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ S, p Ð¸ n: ";
     std::cin >> S >> p >> n;
 
     if (p != 0)
         std::cout << "m = " << m(S, p, n) << std::endl;
     else
-        std::cout << "×òî-òî òû ïåðåïóòàë" << std::endl;
+        std::cout << "Ð§Ñ‚Ð¾-Ñ‚Ð¾ Ñ‚Ñ‹ Ð¿ÐµÑ€ÐµÐ¿ÑƒÑ‚Ð°Ð»" << std::endl;
     return 0;
 }

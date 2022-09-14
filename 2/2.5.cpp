@@ -16,14 +16,13 @@ void tab(double (*func)(double), double inf, double sup, double step)
         if (std::isfinite(res))
             std::cout << res;
         else
-            std::cout << "нет значения";
+            std::cout << "РЅРµС‚ Р·РЅР°С‡РµРЅРёСЏ";
         std::cout << std::endl;
     }
 }
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
     tab(y, -4, 4, 0.5);
     return 0;
 }

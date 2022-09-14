@@ -9,15 +9,14 @@ double get_m(double S, double p, double n)
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
     const double precision = 0.01;
 
     double S = 0, m = 0, n = 0;
-    std::cout << "Ââåäèòå S, m è n: ";
+    std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ S, m Ð¸ n: ";
     std::cin >> S >> m >> n;
     while (S < 0 || m < 0 || n < 0)
     {
-        std::cout << "×òî-òî òû ïåðåïóòàë..." << std::endl;
+        std::cout << "Ð§Ñ‚Ð¾-Ñ‚Ð¾ Ñ‚Ñ‹ Ð¿ÐµÑ€ÐµÐ¿ÑƒÑ‚Ð°Ð»..." << std::endl;
         std::cin >> S >> m >> n;
     }
 

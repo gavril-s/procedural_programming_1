@@ -2,10 +2,8 @@
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
-
     double a = 0, b = 0;
-    std::cout << "Ââåäèòå äâà ÷èñëà: ";
+    std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð´Ð²Ð° Ñ‡Ð¸ÑÐ»Ð°: ";
     std::cin >> a >> b;
 
     std::cout << a << " + " << b << " = " << a + b << std::endl;

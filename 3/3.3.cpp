@@ -3,7 +3,6 @@
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
     std::ifstream ifst;
     ifst.open("text3.3.txt");
 

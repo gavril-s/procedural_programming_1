@@ -14,7 +14,7 @@ int main()
     setlocale(LC_ALL, "Russian");
 
     double x = 0, a = 0;
-    std::cout << "Ââåäèòå äâà ÷èñëà: ";
+    std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð´Ð²Ð° Ñ‡Ð¸ÑÐ»Ð°: ";
     std::cin >> x >> a;
     std::cout << "w = " << w(x, a) << std::endl;
     return 0;

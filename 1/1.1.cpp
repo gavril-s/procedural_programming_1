@@ -2,7 +2,6 @@
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
-    std::cout << "Ãàâðèë Ñåíüêåâè÷";
+    std::cout << "Ð“Ð°Ð²Ñ€Ð¸Ð» Ð¡ÐµÐ½ÑŒÐºÐµÐ²Ð¸Ñ‡";
     return 0;
 }

@@ -2,16 +2,14 @@
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
-
     double b = 0, c = 0;
-    std::cout << "Ââåäèòå äâà ÷èñëà: ";
+    std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð´Ð²Ð° Ñ‡Ð¸ÑÐ»Ð°: ";
     std::cin >> b >> c;
 
     if (b != 0)
         std::cout << "x = " << -c / b << std::endl;
     else
-        std::cout << "×òî-òî òû ïåðåïóòàë" << std::endl;
+        std::cout << "Ð§Ñ‚Ð¾-Ñ‚Ð¾ Ñ‚Ñ‹ Ð¿ÐµÑ€ÐµÐ¿ÑƒÑ‚Ð°Ð»" << std::endl;
 
     return 0;
 }

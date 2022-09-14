@@ -17,16 +17,14 @@ bool ask(std::string q)
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
-
-    bool curtains = ask("Шторы раздвинуты?");
-    bool lamp = ask("Лампа включена?");
-    bool day = ask("На улице день?");
+    bool curtains = ask("РЁС‚РѕСЂС‹ СЂР°Р·РґРІРёРЅСѓС‚С‹?");
+    bool lamp = ask("Р›Р°РјРїР° РІРєР»СЋС‡РµРЅР°?");
+    bool day = ask("РќР° СѓР»РёС†Рµ РґРµРЅСЊ?");
 
     if ((day && curtains) || lamp)
-        std::cout << "Светло" << std::endl;
+        std::cout << "РЎРІРµС‚Р»Рѕ" << std::endl;
     else
-        std::cout << "Темно" << std::endl;
+        std::cout << "РўРµРјРЅРѕ" << std::endl;
 
     return 0;
 }

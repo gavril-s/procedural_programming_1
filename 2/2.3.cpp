@@ -8,10 +8,8 @@ double z(double x, double y, double b)
 
 int main()
 {
-    setlocale (LC_ALL, "Russian");
-
     double x = 0, y = 0, b = 0;
-    std::cout << "Ââåäèòå òðè ÷èñëà: ";
+    std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ‚Ñ€Ð¸ Ñ‡Ð¸ÑÐ»Ð°: ";
     std::cin >> x >> y >> b;
 
     std::cout << "z = " << z(x, y, b) << std::endl;

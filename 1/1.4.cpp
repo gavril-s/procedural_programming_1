@@ -3,16 +3,17 @@
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
-
     double a = 0, b = 0, c = 0;
-    std::cout << "Ââåäèòå êîýôôèöèåíòû êâàäðàòíîãî óðàâíåíèÿ: ";
+    std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÐºÐ¾ÑÑ„Ñ„Ð¸Ñ†Ð¸ÐµÐ½Ñ‚Ñ‹ ÐºÐ²Ð°Ð´Ñ€Ð°Ñ‚Ð½Ð¾Ð³Ð¾ ÑƒÑ€Ð°Ð²Ð½ÐµÐ½Ð¸Ñ: ";
     std::cin >> a >> b >> c;
 
     if (a == 0)
     {
         if (b == 0)
-            std::cout << "Âñå âåùåñòâåííûå ÷èñëà" << std::endl;
+            if (c == 0)
+                std::cout << "Ð²ÑÐµ Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ðµ Ñ‡Ð¸ÑÐ»Ð°" << std::endl;
+            else
+                std::cout << "Ñ€ÐµÑˆÐµÐ½Ð¸Ð¹ Ð½ÐµÑ‚" << std::endl;
         else
             std::cout << "x = " << -c / b << std::endl;
     }
@@ -21,7 +22,7 @@ int main()
         double D = b * b - 4 * a * c;
         if (D < 0)
         {
-            std::cout << "Ðåøåíèé íåò" << std::endl;
+            std::cout << "Ñ€ÐµÑˆÐµÐ½Ð¸Ð¹ Ð½ÐµÑ‚" << std::endl;
         }
         else if (D == 0)
         {

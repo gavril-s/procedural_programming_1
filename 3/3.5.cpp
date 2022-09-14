@@ -4,10 +4,8 @@
 
 int main()
 {
-    setlocale(LC_ALL, "Russian");
-
     //std::string str = "wqphjsaeflmbieyplfbuibetyegkj";
-    std::cout << "Ââåäèòå ñòðîêó:" << std::endl;
+    std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÑÑ‚Ñ€Ð¾ÐºÑƒ:" << std::endl;
     std::string str;
     std::cin >> str;
 
