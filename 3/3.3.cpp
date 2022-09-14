@@ -1,16 +1,19 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 
 int main()
 {
-    std::ifstream ifst;
-    ifst.open("text3.3.txt");
+    std::ofstream ofs;
+    ofs.open("3.3.file.txt");
+    ofs << "sadfdghffdf";
+    ofs.close();
 
-    char ch = 'a';
-    while (ifst.get(ch))
-    {
-        std::cout << ch;
-    }
+    std::ifstream ifs;
+    ifs.open("3.3.file.txt");
+    std::string line;
+    while (getline(ifs, line))
+        std::cout << line << std::endl;
 
     return 0;
 }

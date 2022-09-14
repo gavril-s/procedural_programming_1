@@ -33,6 +33,7 @@ int main()
             best_p_diff = curr_diff;
         }
     }
+    std::cout << "Лучше всего подходит:" << std::endl;
     std::cout << "p = " << best_p << std::endl;
     return 0;
 }
