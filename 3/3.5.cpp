@@ -11,7 +11,12 @@ void bubble_sort(std::string& str)
         is_sorted = true;
         for (int i = start; i < end; ++i)
         {
-            if (str[i] > str[i + 1])
+            if (tolower(str[i]) > tolower(str[i + 1]))
+            {
+                std::swap(str[i], str[i + 1]);
+                is_sorted = false;
+            }
+            else if (tolower(str[i]) == tolower(str[i + 1]) && str[i] > str[i + 1])
             {
                 std::swap(str[i], str[i + 1]);
                 is_sorted = false;
