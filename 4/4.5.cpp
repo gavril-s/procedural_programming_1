@@ -1,58 +1,43 @@
 #include <iostream>
-#include <cmath>
+#include <math.h>
 #include <vector>
 
 int main()
 {
-    double start_x = 0, end_x = 10;
-    double x_step = 0.5, y_step = 0.1;
+    int pi_mult = 0;
+    std::cout << "Напечатать синус до ?*π ";
+    std::cin >> pi_mult;
+
+    double start_x = 0, end_x = pi_mult*M_PI;
+    double x_step = 0.1, y_step = 0.1;
+
     int graph_x_size = ceil((end_x - start_x) / x_step);
+    int graph_y_size = 0;
     std::vector<std::vector<bool>> graph;
     for (double y = -1; y <= 1; y += y_step)
+    {
         graph.push_back(std::vector<bool> (graph_x_size, false));
+        graph_y_size++;
+    }
 
     int i = 0;
     for (double x = start_x; x <= end_x; x += x_step)
     {
         double f = sin(x);
-        int res_j = 0;
-        int j = 0;
-        for (double y = -1; y <= 1; y += y_step)
-        {
-            if (f >= y && f <= y + y_step)
-            {
-                if (std::abs(f - y) < std::abs(f - (y + y_step)))
-                    res_j = j;
-                else
-                    res_j = j + 1;
-            }
-            else if (f >= y - y_step && f <= y)
-            {
-                if (std::abs(f - y) < std::abs(f - (y - y_step)))
-                    res_j = j;
-                else
-                    res_j = j - 1;
-            }
-            j++;
-        }
-        graph[i][res_j] = true;
+        int j = graph_y_size - round((f + 1) / y_step) - 1;
+        graph[j][i] = true;
         i++;
     }
 
-    for (auto i : graph)
+    for (int j = 0; j < graph_y_size; ++j)
     {
-        for (bool j : i)
-            if (j) std::cout << "■";
-            else   std::cout << ' ';
+        for (int i = 0; i < graph_x_size; ++i)
+        {
+            if (graph[j][i]) std::cout << "■";
+            else             std::cout << ' ';
+        }
         std::cout << std::endl;
     }
 
-    /*for (i = graph_x_size - 1; i >= 0; --i)
-    {
-        for (int j = 0; j < graph.size(); ++j)
-            if (graph[j][i]) std::cout << "■";
-            else             std::cout << ' ';
-        std::cout << std::endl;
-    }*/
     return 0;
 }
