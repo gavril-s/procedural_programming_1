@@ -13,7 +13,9 @@ int sign(double x)
 int main()
 {
     double inp = 0;
-    std::cin >> inp;
-    std::cout << sign(inp) << std::endl;   
+    if (std::cin >> inp)
+        std::cout << sign(inp) << std::endl;
+    else
+        std::cout << "Некорректный ввод" << std::endl;
     return 0;
 }

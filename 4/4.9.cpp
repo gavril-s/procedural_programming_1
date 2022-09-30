@@ -13,18 +13,26 @@ int index(char ch, std::string s)
     return -1;
 }
 
+bool is_valid_num(std::string num, int base)
+{
+    std::string digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    for (char digit : num)
+    {
+        if (index(digit, num) == -1 || index(digit, num) >= base)
+            return false;
+    }
+    return true;
+}
+
 std::string translate(std::string num, int curr_base, int target_base)
 {
+    if (is_valid_num(num, curr_base))
+        return std::string{"Некорректное число"};
     if (curr_base < 2 || curr_base > 36 ||
         target_base < 2 || target_base > 36)
-        return std::string{"База"};
+        return std::string{"Некорректное основание"};
 
-    char digits[36] = {
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
-        'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
-        'U', 'V', 'W', 'X', 'Y', 'Z'
-    };
+    std::string digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     if (curr_base == 10)
     {
