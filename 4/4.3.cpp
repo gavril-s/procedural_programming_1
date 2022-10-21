@@ -65,17 +65,29 @@ int main()
     {
     case 1:
         std::cout << "Введите координаты левого нижнего и правого верхнего углов прямоугольника: ";
-        std::cin >> p1 >> p2;
+        if(!(std::cin >> p1 >> p2))
+        {
+            std::cout << "Некорректный ввод" << std::endl;
+            return 0;
+        }
         result = rectangle_area(p1, p2);
         break;
     case 2:
         std::cout << "Введите координаты вершин треугольника: ";
-        std::cin >> p1 >> p2 >> p3;
+        if(!(std::cin >> p1 >> p2 >> p3))
+        {
+            std::cout << "Некорректный ввод" << std::endl;
+            return 0;
+        }
         result = triangle_area(p1, p2, p3);
         break;
     case 3:
         std::cout << "Введите радиус: ";
-        std::cin >> radius;
+        if(!(std::cin >> radius))
+        {
+            std::cout << "Некорректный ввод" << std::endl;
+            return 0;
+        }
         result = circle_area(radius);
         break;
     default:

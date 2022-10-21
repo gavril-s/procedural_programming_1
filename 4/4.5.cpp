@@ -23,7 +23,7 @@ int main()
     int i = 0;
     for (double x = start_x; x <= end_x; x += x_step)
     {
-        double f = sin(x);
+        double f = cos(x);
         int j = graph_y_size - round((f + 1) / y_step) - 1;
         graph[j][i] = true;
         i++;

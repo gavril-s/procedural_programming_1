@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <vector>
 #include <algorithm>
 #include <cmath>
 
@@ -152,21 +154,57 @@ std::string translate(std::string num, int curr_base, int target_base)
     }
 }
 
+std::string get_spaces(int num)
+{
+    std::string res;
+    for (int i = 0; i < num; ++i)
+        res += ' ';
+    return res;
+}
+
+void get_strings(std::istream& is, std::vector<std::string>& out)
+{
+    char temp_ch;
+    std::string temp_str;
+    while (is.get(temp_ch))
+    {
+        if (temp_ch == '\n')
+            return;
+        else
+            is.putback(temp_ch);
+
+        if (is >> temp_str)
+            out.push_back(temp_str);
+    }
+}
+
 int main()
 {
-    int curr_base = 0, target_base = 0;
-    std::string num;
+    const int BASE_FROM = 3;
+    const int BASE_TO   = 6;
 
-    std::cout << "Исходное число: ";
-    std::cin >> num;
+    std::cout << "Введите массив чисел через пробел:" << std::endl;
 
-    std::cout << "Старое основание: ";
-    std::cin >> curr_base;
+    std::vector<std::string> input_array;
+    get_strings(std::cin, input_array);
 
-    std::cout << "Новое основание: ";
-    std::cin >> target_base;
+    size_t max_input_num_length = 0;
+    std::vector<std::string> output_array;
+    for (std::string num : input_array)
+    {
+        max_input_num_length = std::max(num.length(), max_input_num_length);
+        output_array.push_back(translate(num, BASE_FROM, BASE_TO));
+    }
 
-    std::cout << std::endl << "Результат: " 
-              << translate(num, curr_base, target_base) << std::endl;
+    std::cout << "Результат перевода:" << std::endl;
+    for (int i = 0; i < output_array.size(); ++i)
+    {
+        std::string delim = "->";
+        std::cout << input_array[i]; 
+        int needed_spaces = max_input_num_length - input_array[i].length();
+        std::cout << get_spaces(needed_spaces) << ' ' << delim << ' ';
+        std::cout << output_array[i] << std::endl;
+    }
+
     return 0;
 }

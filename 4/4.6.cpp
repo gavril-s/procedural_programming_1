@@ -50,6 +50,8 @@ int main()
     std::cout << "Введите римское число: ";
     std::cin >> roman_number;
     
+    // MCIIXLLVI 1194 (справа налево)
+
     if (is_roman(roman_number))
         std::cout << "Результат: " << roman_cast(roman_number) << std::endl;
     else
