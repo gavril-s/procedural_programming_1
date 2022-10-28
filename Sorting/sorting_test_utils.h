@@ -47,17 +47,6 @@ void fill_vector(std::vector<int>& vec, int len)
         vec.push_back(std::rand());
 }
 
-void fill_vectors(std::vector<std::vector<int>>& vec, int n, int inf, int sup)
-{
-    int step = (sup - inf) / n;
-    vec.clear();
-    for (int i = 0; i < n; ++i)
-    {
-        vec.push_back(std::vector<int>());
-        fill_vector(vec[i], inf + i * step);
-    }
-}
-
 double time_rb_sort(std::vector<int>& inp)
 {
     std::chrono::high_resolution_clock::time_point t1;

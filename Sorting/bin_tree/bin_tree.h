@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 
 template <typename T>
 struct bin_tree_node
@@ -36,7 +37,7 @@ public:
         del_tree(root_);
     }
 
-    bin_tree_node<T>* append(bin_tree_node<T>* parent, T val)
+    bin_tree_node<T>* insert(bin_tree_node<T>* parent, T val)
     {
         size_++;
         if (parent == nullptr || root_ == nullptr)
@@ -56,17 +57,39 @@ public:
         return new_node;
     }
 
-    bin_tree_node<T>* append(T val)
+    bin_tree_node<T>* insert(T val)
     {
         bin_tree_node<T>* search_res = this->find_leaf(val);
         if (search_res == nullptr)
         {
-            return this->append(last_check_, val);
+            return this->insert(last_check_, val);
         }
         else
         {
-            return this->append(search_res, val);
+            return this->insert(search_res, val);
         }
+    }
+
+    bin_tree_node<T>* find_leaf(T val)
+    {
+        bin_tree_node<T>* curr = root_;
+        last_check_ = root_;
+        while (curr != nullptr)
+        {
+            if (val < curr->val_)
+            {
+                curr = curr->left_child_;
+            }
+            else
+            {
+                curr = curr->right_child_;
+            }
+            if (curr != nullptr)
+            {
+                last_check_ = curr;
+            }
+        }
+        return nullptr;
     }
 
     bin_tree_node<T>* find(T val)
@@ -95,28 +118,6 @@ public:
         return nullptr;
     }
 
-    bin_tree_node<T>* find_leaf(T val)
-    {
-        bin_tree_node<T>* curr = root_;
-        last_check_ = root_;
-        while (curr != nullptr)
-        {
-            if (val < curr->val_)
-            {
-                curr = curr->left_child_;
-            }
-            else
-            {
-                curr = curr->right_child_;
-            }
-            if (curr != nullptr)
-            {
-                last_check_ = curr;
-            }
-        }
-        return nullptr;
-    }
-
     void print(bin_tree_node<T>* node)
     {
         if (node == nullptr) return;
@@ -130,17 +131,17 @@ public:
         print(root_);
     }
 
-    void to_vec(bin_tree_node<T>* node, std::vector<T>& vec)
+    void to_vector(bin_tree_node<T>* node, std::vector<T>& vec)
     {
         if (node == nullptr) return;
-        to_vec(node->left_child_, vec);
+        to_vector(node->left_child_, vec);
         vec.push_back(node->val_);
-        to_vec(node->right_child_, vec);
+        to_vector(node->right_child_, vec);
     }
 
     void to_vector(std::vector<T>& vec)
     {
         vec.clear();
-        to_vec(root_, vec);
+        to_vector(root_, vec);
     }
 };

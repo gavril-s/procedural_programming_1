@@ -8,7 +8,7 @@ def log(x):
         return 0
     return math.log(x) / math.log(2)
 
-FILENAME = 'data/results.txt'
+FILENAME = 'data/results6.txt'
 
 data = []
 

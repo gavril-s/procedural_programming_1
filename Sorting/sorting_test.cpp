@@ -10,9 +10,9 @@ sort_time single_time_test(std::vector<int>& inp)
     std::vector<int> inp_copy_bin (inp);
     std::vector<int> inp_copy_std (inp);
 
-    double rb_res  = time_rb_sort(inp_copy_rb);
-    double bin_res = time_bin_sort(inp_copy_bin);
-    double std_res = time_std_sort(inp_copy_std);
+    double rb_time  = time_rb_sort(inp_copy_rb);
+    double bin_time = time_bin_sort(inp_copy_bin);
+    double std_time = time_std_sort(inp_copy_std);
 
     if ((!vec_equal(inp_copy_rb, inp_copy_std)) || (!vec_equal(inp_copy_bin, inp_copy_std)))
     {
@@ -39,14 +39,14 @@ sort_time single_time_test(std::vector<int>& inp)
     {
         sort_time res;
         res.array_size = inp.size();
-        res.rb_time  = rb_res;
-        res.bin_time = bin_res;
-        res.std_time = std_res;
+        res.rb_time  = rb_time;
+        res.bin_time = bin_time;
+        res.std_time = std_time;
         return res;
     } 
 }
 
-std::vector<sort_time> time_test(int n, int inf, int sup, int takes)
+std::vector<sort_time> full_time_test(int n, int inf, int sup, int takes)
 {
     std::vector<sort_time> res (n, sort_time());
     std::vector<int> inp;
@@ -67,10 +67,10 @@ std::vector<sort_time> time_test(int n, int inf, int sup, int takes)
         }
 
         res[i].rb_time  /= takes;
-
         res[i].bin_time /= takes;
         res[i].std_time /= takes;
     }
+    std::cout << "DONE" << std::endl;
     return res;
 }
 
@@ -86,7 +86,7 @@ void dump_points(std::vector<sort_time>& points, std::string filename)
 int main()
 {
     std::srand((unsigned int)time(NULL));
-    std::vector<sort_time> res = time_test(1000, 0, 1000000, 5);
+    std::vector<sort_time> res = full_time_test(100, 0, 1000000, 3);
     dump_points(res, "data/results.txt");
     return 0;
 }
