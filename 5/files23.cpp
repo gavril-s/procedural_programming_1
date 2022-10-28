@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 struct team
 {
@@ -124,6 +125,11 @@ void write_teams_to_console(std::vector<team>& teams, std::ostream& os)
     }
 }
 
+int cmp(const team& t1, const team& t2)
+{
+    return (t1.gold + t1.silver) > (t2.gold + t2.silver);
+}
+
 int main()
 {
     std::string file_name = "result.csv";
@@ -132,6 +138,7 @@ int main()
     if (get_teams(teams, "Введите список команд и их медалей", 
               "Некорректный ввод!"))
     {
+        std::sort(teams.begin(), teams.end(), cmp);
         write_teams_to_file(teams, file_name);
         write_teams_to_console(teams, std::cout);
         std::cout << "Реузльтаты также доступны в файле " 

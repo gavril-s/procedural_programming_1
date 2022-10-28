@@ -3,24 +3,25 @@
 #include <sstream>
 #include <stack>
 
-bool check_brackets_balance(std::string in)
+bool check_brackets_balance(std::string in, char open_br, char close_br)
 {
     std::stack<char> br_stack;
 
     for (char ch : in)
     {
-        switch (ch)
+        if (ch == open_br)
         {
-        case '(':
             br_stack.push(ch);
-            break;
-        case ')':
-            if (br_stack.top() == '(')
+        }
+        else if (ch == close_br)
+        {
+            if (br_stack.size() > 0 && br_stack.top() == open_br)
                 br_stack.pop();
             else
                 br_stack.push(ch);
-            break;
-        default:
+        }
+        else
+        {
             continue;
         }
     }
@@ -50,6 +51,9 @@ int main()
     std::string file_content = buffer.str();
     ifs.close();
 
-    std::cout << ((check_brackets_balance(file_content)) ? "OK" : "NOT OK") << std::endl;
+    bool ok = check_brackets_balance(file_content, '(', ')') && 
+              check_brackets_balance(file_content, '{', '}') &&
+              check_brackets_balance(file_content, '[', ']');
+    std::cout << ((ok) ? "OK" : "NOT OK") << std::endl;
     return 0;
 }
