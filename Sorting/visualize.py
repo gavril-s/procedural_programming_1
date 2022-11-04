@@ -8,7 +8,7 @@ def log(x):
         return 0
     return math.log(x) / math.log(2)
 
-FILENAME = 'data/results6.txt'
+FILENAME = 'data/results.txt'
 
 data = []
 
@@ -25,7 +25,8 @@ k2 = 10**(-8)
 plt.plot([i[0] for i in data], [i[1] for i in data], 'r')
 plt.plot([i[0] for i in data], [i[2] for i in data], 'b')
 plt.plot([i[0] for i in data], [i[3] for i in data], 'g')
+plt.plot([i[0] for i in data], [i[4] for i in data], 'm')
 plt.plot([i[0] for i in data], [k1 * i[0] * log(i[0]) for i in data], 'k')
 plt.plot([i[0] for i in data], [k2 * i[0] * log(i[0]) for i in data], 'k')
-plt.xlabel("Red - rb_sort, blue - bin_sort, green - std::sort")
+plt.xlabel("Red - rb_sort, blue - avl_sort, green - bin_sort, m - std::sort")
 plt.show()  

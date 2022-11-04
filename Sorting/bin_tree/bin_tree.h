@@ -9,9 +9,10 @@ struct bin_tree_node
     bin_tree_node* left_child_=nullptr;
     bin_tree_node* right_child_=nullptr;
 
-    bin_tree_node(int val, bin_tree_node* parent=nullptr,
-                 bin_tree_node* left_child=nullptr, 
-                 bin_tree_node* right_child=nullptr)
+    bin_tree_node(int val,
+                  bin_tree_node* parent=nullptr,
+                  bin_tree_node* left_child=nullptr, 
+                  bin_tree_node* right_child=nullptr)
     : val_(val), parent_(parent), left_child_(left_child),
       right_child_(right_child) {}
 };

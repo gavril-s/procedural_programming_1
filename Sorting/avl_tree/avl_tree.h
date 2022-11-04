@@ -1,27 +1,90 @@
 #pragma once
 #include <iostream>
-
-enum colors {black, red};
+#include <vector>
 
 template <typename T>
-struct rb_tree_node
+struct avl_tree_node
 {
     T val_=T();
-    colors color_=black;
-    rb_tree_node* parent_=nullptr;
-    rb_tree_node* left_child_=nullptr;
-    rb_tree_node* right_child_=nullptr;
+    int height_=1;
+    avl_tree_node* parent_=nullptr;
+    avl_tree_node* left_child_=nullptr;
+    avl_tree_node* right_child_=nullptr;
 
-    rb_tree_node(int val, colors color=black,
-                 rb_tree_node* parent=nullptr,
-                 rb_tree_node* left_child=nullptr, 
-                 rb_tree_node* right_child=nullptr)
-    : val_(val), color_(color), parent_(parent),
+    avl_tree_node(int val,
+                  avl_tree_node* parent=nullptr,
+                  avl_tree_node* left_child=nullptr, 
+                  avl_tree_node* right_child=nullptr)
+    : val_(val), parent_(parent),
       left_child_(left_child), right_child_(right_child) {}
 };
 
 template <typename T>
-rb_tree_node<T>* grandparent(rb_tree_node<T>* node)
+int height(avl_tree_node<T>* node)
+{
+    if (node == nullptr)
+    {
+        return 0;
+    }
+    return node->height_;
+}
+
+template <typename T>
+void update_height(avl_tree_node<T>* node)
+{
+    if (node == nullptr)
+    {
+        return;
+    }
+    
+    node->height_ = 1 + std::max(
+        height(node->left_child_),
+        height(node->right_child_));
+    //update_height(node->parent_);
+}
+
+template <typename T>
+void update_height_r(avl_tree_node<T>* node)
+{
+    if (node == nullptr)
+    {
+        return;
+    }
+    
+    node->height_ = 1 + std::max(
+        height(node->left_child_),
+        height(node->right_child_));
+    update_height_r(node->parent_);
+}
+
+template <typename T>
+void update_height_d(avl_tree_node<T>* node)
+{
+    if (node == nullptr)
+    {
+        return;
+    }
+
+    update_height_d(node->left_child_);
+    update_height_d(node->right_child_);
+    
+    node->height_ = 1 + std::max(
+        height(node->left_child_),
+        height(node->right_child_));
+}
+
+template <typename T>
+int get_balance(avl_tree_node<T>* node)
+{
+    if (node == nullptr)
+    {
+        return 0;
+    }
+    return height(node->left_child_) - height(node->right_child_);
+}
+
+template <typename T>
+avl_tree_node<T>* grandparent(avl_tree_node<T>* node)
 {
     if (node == nullptr || node->parent_ == nullptr)
     {
@@ -31,9 +94,9 @@ rb_tree_node<T>* grandparent(rb_tree_node<T>* node)
 }
 
 template <typename T>
-rb_tree_node<T>* uncle(rb_tree_node<T>* node)
+avl_tree_node<T>* uncle(avl_tree_node<T>* node)
 {
-    rb_tree_node<T>* grandpa = grandparent(node);
+    avl_tree_node<T>* grandpa = grandparent(node);
     if (grandpa == nullptr)
     {
         return nullptr;
@@ -49,14 +112,14 @@ rb_tree_node<T>* uncle(rb_tree_node<T>* node)
 }
 
 template <typename T>
-class rb_tree
+class avl_tree
 {
 private:
-    rb_tree_node<T>* root_=nullptr;
+    avl_tree_node<T>* root_=nullptr;
     size_t size_=0;
-    rb_tree_node<T>* last_check_=nullptr;
+    avl_tree_node<T>* last_check_=nullptr;
 
-    void del_tree(rb_tree_node<T>* node)
+    void del_tree(avl_tree_node<T>* node)
     {
         if (node == nullptr) return;
         del_tree(node->left_child_);
@@ -64,13 +127,13 @@ private:
         delete node;
     }
 
-    void rotate_left(rb_tree_node<T>* node)
+    void rotate_left(avl_tree_node<T>* node)
     {
-        if (node == nullptr)
+        if (node == nullptr || node->right_child_ == nullptr)
         {
             return;
         }
-        rb_tree_node<T>* pivot = node->right_child_;
+        avl_tree_node<T>* pivot = node->right_child_;
         pivot->parent_ = node->parent_;
         if (root_ == node)
         {
@@ -95,15 +158,18 @@ private:
         }
         node->parent_ = pivot;
         pivot->left_child_ = node;
+
+        update_height(node);
+        update_height(pivot);
     }
     
-    void rotate_right(rb_tree_node<T>* node)
+    void rotate_right(avl_tree_node<T>* node)
     {
-        if (node == nullptr)
+        if (node == nullptr || node->left_child_ == nullptr)
         {
             return;
         }
-        rb_tree_node<T>* pivot = node->left_child_;
+        avl_tree_node<T>* pivot = node->left_child_;
         pivot->parent_ = node->parent_;
         if (root_ == node)
         {
@@ -128,78 +194,60 @@ private:
         }
         node->parent_ = pivot;
         pivot->right_child_ = node;
+        
+        update_height(node);
+        update_height(pivot);
     }
 
-    void balance(rb_tree_node<T>* node)
+    void balance(avl_tree_node<T>* node)
     {
-        if (node == nullptr)
+        if (node == nullptr || node->parent_ == nullptr)
         {
             return;
         }
-        rb_tree_node<T>* unc = uncle(node);
-        rb_tree_node<T>* grandpa = grandparent(node);
-        if (node->parent_ == nullptr || root_ == node)
-        {
-            node->color_ = black;
-        }
-        else if (node->parent_->color_ == black)
-        {
-            return;
-        }
-        else if ((unc != nullptr) && (unc->color_ == red))
-        {
-            node->parent_->color_ = black;
-            unc->color_ = black;
-            if (grandpa != nullptr)
-            {
-                grandpa->color_ = red;
-                balance(grandpa);
-            }
-        }
-        else
-        {
-            if ((node == node->parent_->right_child_) && 
-                (node->parent_ == grandpa->left_child_))
-            {
-                rotate_left(node->parent_);
-                node = node->left_child_;
-            }
-            else if ((node == node->parent_->left_child_) &&
-                     (node->parent_ == grandpa->right_child_))
-            {
-                rotate_right(node->parent_);
-            }
 
-            node->parent_->color_ = black;
-            grandpa->color_ = red;
-            if ((node == node->parent_->left_child_) && 
-                (node->parent_ == grandpa->left_child_))
-            {
-                rotate_right(grandpa);
-            }
-            else
-            {
-                rotate_left(grandpa);
-            }
+        int blnc = get_balance(node->parent_);
+        if (blnc > 1 && 
+            node->parent_->val_ < node->parent_->left_child_->val_)
+        {
+            rotate_right(node);
+        }
+        if (blnc < -1 && 
+            node->parent_->val_ > node->parent_->right_child_->val_)
+        {
+            rotate_left(node);
+        }
+        if (blnc > 1 &&
+            node->parent_->val_ > node->parent_->left_child_->val_)
+        {
+            rotate_left(node->left_child_);
+            rotate_right(node);
+        }
+        if (blnc < -1 && 
+            node->parent_->val_ < node->parent_->right_child_->val_)
+        {
+            rotate_right(node->right_child_);
+            rotate_left(node);
         }
     }
 
 public:
-    ~rb_tree()
+    ~avl_tree()
     {
         del_tree(root_);
     }
 
-    rb_tree_node<T>* insert(rb_tree_node<T>* parent, T val)
+    avl_tree_node<T>* insert(avl_tree_node<T>* parent, T val)
     {
+        update_height_r(parent);
         size_++;
         if (parent == nullptr || root_ == nullptr)
         {
-            root_ = new rb_tree_node<T>(val, black);
+            root_ = new avl_tree_node<T>(val);
             this->balance(root_);
             return root_;
         }
-        rb_tree_node<T>* new_node = new rb_tree_node<T>(val, red, parent);
+        avl_tree_node<T>* new_node = new avl_tree_node<T>(val, parent);
         if (new_node->val_ < parent->val_)
         {
             parent->left_child_ = new_node;
@@ -212,9 +260,9 @@ public:
         return new_node;
     }
 
-    rb_tree_node<T>* insert(T val)
+    avl_tree_node<T>* insert(T val)
     {
-        rb_tree_node<T>* search_res = this->find_leaf(val);
+        avl_tree_node<T>* search_res = this->find_leaf(val);
         if (search_res == nullptr)
         {
             return this->insert(last_check_, val);
@@ -225,9 +273,9 @@ public:
         }
     }
 
-    rb_tree_node<T>* find_leaf(T val)
+    avl_tree_node<T>* find_leaf(T val)
     {
-        rb_tree_node<T>* curr = root_;
+        avl_tree_node<T>* curr = root_;
         last_check_ = root_;
         while (curr != nullptr)
         {
@@ -247,9 +295,9 @@ public:
         return nullptr;
     }
 
-    rb_tree_node<T>* find(T val)
+    avl_tree_node<T>* find(T val)
     {
-        rb_tree_node<T>* curr = root_;
+        avl_tree_node<T>* curr = root_;
         last_check_ = root_;
         while (curr != nullptr)
         {
@@ -273,20 +321,28 @@ public:
         return nullptr;
     }
 
-    void print(rb_tree_node<T>* node)
+    void print(avl_tree_node<T>* node)
     {
         if (node == nullptr) return;
         print(node->left_child_);
-        std::cout << node->val_ << std::endl;
+        std::cout << node->val_ << " (" << node->height_ << ") "
+                  << "parent: " << (node->parent_ == nullptr ? "NULL" : std::to_string(node->parent_->val_)) << std::endl;
         print(node->right_child_);
     }
 
     void print()
     {
+        update_height_d(root_);
         print(root_);
     }
 
-    void to_vector(rb_tree_node<T>* node, std::vector<T>& vec)
+    int max_height()
+    {
+        update_height_d(root_);
+        return root_->height_;
+    }
+
+    void to_vector(avl_tree_node<T>* node, std::vector<T>& vec)
     {
         if (node == nullptr) return;
         to_vector(node->left_child_, vec);
