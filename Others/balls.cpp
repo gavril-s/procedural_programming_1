@@ -43,9 +43,17 @@ int main()
     int count = 0;
     for (int i = 0; i < res.size(); ++i)
     {
+        bool good = false;
         for (int j = 0; j < res[i].size(); ++j)
         {
-            if (j == res[i][j]) count++;
+            if (j + 1 == res[i][j])
+            {
+                good = true;
+            }
+        }
+        if (good) 
+        {
+            count++;
         }
     }
 
