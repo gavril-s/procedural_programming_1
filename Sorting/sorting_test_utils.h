@@ -5,14 +5,12 @@
 #include <chrono>
 #include <algorithm>
 #include "rb_tree/rb_sort.h"
-#include "avl_tree/avl_sort.h"
 #include "bin_tree/bin_sort.h"
 
 struct sort_time
 {
     size_t array_size=0;
     double rb_time=0;
-    double avl_time=0;
     double bin_time=0;
     double std_time=0;
 };
@@ -57,19 +55,6 @@ double time_rb_sort(std::vector<int>& inp)
 
     t1 = std::chrono::high_resolution_clock::now();
     rb_sort(inp);
-    t2 = std::chrono::high_resolution_clock::now();
-    time_span = t2 - t1;
-    return time_span.count();
-}
-
-double time_avl_sort(std::vector<int>& inp)
-{
-    std::chrono::high_resolution_clock::time_point t1;
-    std::chrono::high_resolution_clock::time_point t2;
-    std::chrono::duration<double> time_span;
-
-    t1 = std::chrono::high_resolution_clock::now();
-    avl_sort(inp);
     t2 = std::chrono::high_resolution_clock::now();
     time_span = t2 - t1;
     return time_span.count();

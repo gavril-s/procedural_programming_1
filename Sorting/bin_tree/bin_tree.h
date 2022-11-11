@@ -1,18 +1,19 @@
 #pragma once
 #include <iostream>
+#include <vector>
 
 template <typename T>
 struct bin_tree_node
 {
-    T val_=T();
-    bin_tree_node* parent_=nullptr;
-    bin_tree_node* left_child_=nullptr;
-    bin_tree_node* right_child_=nullptr;
+    T val_ = T();
+    bin_tree_node* parent_      = nullptr;
+    bin_tree_node* left_child_  = nullptr;
+    bin_tree_node* right_child_ = nullptr;
 
     bin_tree_node(int val,
-                  bin_tree_node* parent=nullptr,
-                  bin_tree_node* left_child=nullptr, 
-                  bin_tree_node* right_child=nullptr)
+                  bin_tree_node* parent      = nullptr,
+                  bin_tree_node* left_child  = nullptr, 
+                  bin_tree_node* right_child = nullptr)
     : val_(val), parent_(parent), left_child_(left_child),
       right_child_(right_child) {}
 };
@@ -21,128 +22,132 @@ template <typename T>
 class bin_tree
 {
 private:
-    bin_tree_node<T>* root_=nullptr;
-    size_t size_=0;
-    bin_tree_node<T>* last_check_=nullptr;
+    bin_tree_node<T>* root_ = nullptr;
 
-    void del_tree(bin_tree_node<T>* node)
-    {
-        if (node == nullptr) return;
-        del_tree(node->left_child_);
-        del_tree(node->right_child_);
-        delete node;
-    }
+    void del_tree(bin_tree_node<T>* node);
+
+    bin_tree_node<T>* insert    (bin_tree_node<T>* parent, T val);
+    void              print     (bin_tree_node<T>* node);
+    void              to_vector (bin_tree_node<T>* node, std::vector<T>& vec);
+    int               height    (bin_tree_node<T>* node);
 public:
-    ~bin_tree()
-    {
-        del_tree(root_);
-    }
+    ~bin_tree();
 
-    bin_tree_node<T>* insert(bin_tree_node<T>* parent, T val)
+    bin_tree_node<T>* insert    (T val);
+    void              print     ();
+    void              to_vector (std::vector<T>& vec);
+    int               max_height();
+};
+
+template <typename T>
+void bin_tree<T>::del_tree(bin_tree_node<T>* node)
+{
+    if (node == nullptr) return;
+    del_tree(node->left_child_);
+    del_tree(node->right_child_);
+    delete node;
+}
+
+template <typename T>
+bin_tree_node<T>* bin_tree<T>::insert(bin_tree_node<T>* parent, T val)
+{
+    if (parent == nullptr)
     {
-        size_++;
-        if (parent == nullptr || root_ == nullptr)
+        if (root_ == nullptr)
         {
             root_ = new bin_tree_node<T>(val);
             return root_;
         }
-        bin_tree_node<T>* new_node = new bin_tree_node<T>(val, parent);
-        if (new_node->val_ < parent->val_)
+        return nullptr;
+    }
+
+    if (val < parent->val_)
+    {
+        if (parent->left_child_ == nullptr)
         {
+            bin_tree_node<T>* new_node = new bin_tree_node<T>(val, parent);
             parent->left_child_ = new_node;
+            return new_node;
         }
         else
         {
+            return insert(parent->left_child_, val);
+        }
+    }
+    else
+    {
+        if (parent->right_child_ == nullptr)
+        {
+            bin_tree_node<T>* new_node = new bin_tree_node<T>(val, parent);
             parent->right_child_ = new_node;
-        }
-        return new_node;
-    }
-
-    bin_tree_node<T>* insert(T val)
-    {
-        bin_tree_node<T>* search_res = this->find_leaf(val);
-        if (search_res == nullptr)
-        {
-            return this->insert(last_check_, val);
+            return new_node;
         }
         else
         {
-            return this->insert(search_res, val);
+            return insert(parent->right_child_, val);
         }
     }
+}
 
-    bin_tree_node<T>* find_leaf(T val)
-    {
-        bin_tree_node<T>* curr = root_;
-        last_check_ = root_;
-        while (curr != nullptr)
-        {
-            if (val < curr->val_)
-            {
-                curr = curr->left_child_;
-            }
-            else
-            {
-                curr = curr->right_child_;
-            }
-            if (curr != nullptr)
-            {
-                last_check_ = curr;
-            }
-        }
-        return nullptr;
-    }
+template <typename T>
+void bin_tree<T>::print(bin_tree_node<T>* node)
+{
+    if (node == nullptr) return;
+    print(node->left_child_);
+    std::cout << node->val_ << std::endl;
+    print(node->right_child_);
+}
 
-    bin_tree_node<T>* find(T val)
-    {
-        bin_tree_node<T>* curr = root_;
-        last_check_ = root_;
-        while (curr != nullptr)
-        {
-            if (curr->val_ == val)
-            {
-                return curr;
-            }
-            else if (val < curr->val_)
-            {
-                curr = curr->left_child_;
-            }
-            else
-            {
-                curr = curr->right_child_;
-            }
-            if (curr != nullptr)
-            {
-                last_check_ = curr;
-            }
-        }
-        return nullptr;
-    }
+template <typename T>
+void bin_tree<T>::to_vector(bin_tree_node<T>* node, std::vector<T>& vec)
+{
+    if (node == nullptr) return;
+    to_vector(node->left_child_, vec);
+    vec.push_back(node->val_);
+    to_vector(node->right_child_, vec);
+}
 
-    void print(bin_tree_node<T>* node)
+template <typename T>
+int bin_tree<T>::height(bin_tree_node<T>* node)
+{
+    if (node == nullptr)
     {
-        if (node == nullptr) return;
-        print(node->left_child_);
-        std::cout << node->val_ << std::endl;
-        print(node->right_child_);
+        return 0;
     }
+    
+    return 1 + std::max(
+        height(node->left_child_),
+        height(node->right_child_)
+    );
+}
 
-    void print()
-    {
-        print(root_);
-    }
+template <typename T>
+bin_tree<T>::~bin_tree()
+{
+    del_tree(root_);
+}
 
-    void to_vector(bin_tree_node<T>* node, std::vector<T>& vec)
-    {
-        if (node == nullptr) return;
-        to_vector(node->left_child_, vec);
-        vec.push_back(node->val_);
-        to_vector(node->right_child_, vec);
-    }
+template <typename T>
+bin_tree_node<T>* bin_tree<T>::insert(T val)
+{
+    return insert(root_, val);
+}
 
-    void to_vector(std::vector<T>& vec)
-    {
-        vec.clear();
-        to_vector(root_, vec);
-    }
-};
+template <typename T>
+void bin_tree<T>::print()
+{
+    print(root_);
+}
+
+template <typename T>
+void bin_tree<T>::to_vector(std::vector<T>& vec)
+{
+    vec.clear();
+    to_vector(root_, vec);
+}
+
+template <typename T>
+int bin_tree<T>::max_height()
+{
+    return height(root_);
+}
