@@ -1,28 +1,38 @@
 #include <iostream>
 #include <vector>
 
-void permute(std::vector<int>& inp, std::vector<std::vector<int>>& out, int l, int r)
+void process_permutation(std::vector<int> inp, int& count)
+{
+    bool good = false;
+    for (int j = 0; j < inp.size(); ++j)
+    {
+        if (j + 1 == inp[j])
+        {
+            good = true;
+        }
+    }
+    if (good) 
+    {
+        count++;
+    }
+}
+
+void permute(std::vector<int>& inp, int l, int r, int& count)
 {
     if (l == r)
     {
-        out.push_back(std::vector<int>(inp));
+        process_permutation(std::vector<int>(inp), count);
     }
     else
     {
         for (int i = l; i <= r; i++)
         {
             std::swap(inp[l], inp[i]);
-            permute(inp, out, l+1, r);
+            permute(inp, l+1, r, count);
             std::swap(inp[l], inp[i]);
         }
     }
 }
-
-void permute(std::vector<int>& inp, std::vector<std::vector<int>>& out)
-{
-    permute(inp, out, 0, inp.size() - 1);
-}
-
 
 int main()
 {
@@ -38,24 +48,9 @@ int main()
         balls[i] = i + 1;
 
     std::vector<std::vector<int>> res;
-    permute(balls, res, 0, balls.size() - 1);
 
     int count = 0;
-    for (int i = 0; i < res.size(); ++i)
-    {
-        bool good = false;
-        for (int j = 0; j < res[i].size(); ++j)
-        {
-            if (j + 1 == res[i][j])
-            {
-                good = true;
-            }
-        }
-        if (good) 
-        {
-            count++;
-        }
-    }
+    permute(balls, 0, balls.size() - 1, count);
 
     std::cout << count << std::endl;
     return 0;
